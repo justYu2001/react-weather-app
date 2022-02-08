@@ -1,0 +1,10 @@
+{
+    "editor.quickSuggestions": {
+        "strings": true // forces VS Code to trigger completions when editing "string" content
+    },
+    "tailwindCSS.experimental.classRegex": [
+        "tw`([^`]*)", // tw`...`
+        "tw\\.[^`]+`([^`]*)`", // tw.xxx<xxx>`...`
+        "tw\\(.*?\\).*?`([^`]*)" // tw(Component)<xxx>`...`
+    ]
+}
