@@ -1,17 +1,15 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
+import sunnyBackground from './assets/images/sunny.jpg';
 
-const Card = tw.div`
-  w-96 py-8 px-4
-  bg-gray-50
-  shadow-md
+const Container = tw.div`
+  w-screen h-screen
+  bg-[image:var(--image-url)] bg-cover
 `;
 
 const App = () => {
   return (
-    <Card>
-      <h1 className='text-3xl'>Weather</h1>
-    </Card>
+    <Container style={{'--image-url': `url(${sunnyBackground})` }} />
   );
 };
 
