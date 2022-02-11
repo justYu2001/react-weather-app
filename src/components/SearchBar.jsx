@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import tw from 'tailwind-styled-components';
 
 const KeywordInput = tw.input`
@@ -35,6 +35,7 @@ const ResultList = tw.ul`
 const ResultListItem = tw.li`
     flex justify-between items-center
     py-1 px-3.5
+    ${props => props.$isSelected ? 'bg-slate-200' : ''}
     text-xl tracking-wide
     cursor-pointer
 
@@ -94,6 +95,68 @@ const SearchBar = (props) => {
         setResultList(districtsList);
     };
 
+    const [isComposing, setIsComposing] = useState(false);
+
+    const [currentResultIndex, setCurrentResultIndex] = useState(-1);
+
+    const handleKeywordInputKeyArrowUp = () => {
+        const keywordInputElement = keywordInputRef.current;
+
+        if(currentResultIndex > -1 && isComposing === false) {
+            const newResultIndex = currentResultIndex - 1;
+            setCurrentResultIndex(newResultIndex);
+            if(newResultIndex > -1) {
+                keywordInputElement.value = resultList[newResultIndex].district;
+            }
+        }
+    };
+
+    const handleKeywordInputKeyArrowDown = () => {
+        const keywordInputElement = keywordInputRef.current;
+
+        if(currentResultIndex < resultList.length - 1 && isComposing === false) {
+            const newResultIndex = currentResultIndex + 1;
+            setCurrentResultIndex(newResultIndex);
+            keywordInputElement.value = resultList[newResultIndex].district;
+        }
+    };
+
+    const handleKeywordInputKeyEnter = () => {
+        if(isComposing === false) {
+            const keywordInputElement = keywordInputRef.current;
+
+            if(currentResultIndex > -1) {
+                handleResultItemClick(resultList[currentResultIndex])();
+            } else if(keywordInputElement.value.length > 1 && resultList.length > 0) {
+                handleResultItemClick(resultList[0])();
+            }
+
+            setCurrentResultIndex(-1);
+            keywordInputElement.blur();
+        }
+    };
+
+    const handleKeywordInputKeyDown = (event) => {
+        const keywordInputKeyDownHandler = {
+            ArrowDown: handleKeywordInputKeyArrowDown,
+            ArrowUp: handleKeywordInputKeyArrowUp,
+            Enter: handleKeywordInputKeyEnter,
+        }
+
+        if(keywordInputKeyDownHandler[event.key]) {
+            keywordInputKeyDownHandler[event.key]();
+        }
+    }
+
+    useEffect(() => {
+        /*
+         * Fix the cursor at the last position
+         * when using the up and down key to select a result.
+         */
+
+        keywordInputRef.current.setSelectionRange(-1, -1);
+    });
+
     const handleResultItemClick = (location) => {
         return () => {
             const { setCurrentLocation } = props;
@@ -108,6 +171,7 @@ const SearchBar = (props) => {
             const words = result.district.split(keyword);
             return (
                 <ResultListItem 
+                    $isSelected={currentResultIndex === index}
                     key={`${result.district}${index}`} 
                     onClick={handleResultItemClick(result)}
                 >
@@ -122,7 +186,13 @@ const SearchBar = (props) => {
 
     return (
         <div className='relative w-2/5 py-5 m-auto'>
-            <KeywordInput ref={keywordInputRef} onInput={handleKeywordInput} />
+            <KeywordInput 
+                ref={keywordInputRef} 
+                onInput={handleKeywordInput}
+                onKeyDown={handleKeywordInputKeyDown}
+                onCompositionStart={() => setIsComposing(true)}
+                onCompositionEnd={() => setIsComposing(false)}
+            />
             <ResultList $numberOfResult={resultList.length}>
                 <ResultListItems />
             </ResultList>
