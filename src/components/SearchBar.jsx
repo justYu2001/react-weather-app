@@ -189,6 +189,7 @@ const SearchBar = (props) => {
             <KeywordInput 
                 ref={keywordInputRef} 
                 onInput={handleKeywordInput}
+                onBlur={() => setCurrentResultIndex(-1)}
                 onKeyDown={handleKeywordInputKeyDown}
                 onCompositionStart={() => setIsComposing(true)}
                 onCompositionEnd={() => setIsComposing(false)}
