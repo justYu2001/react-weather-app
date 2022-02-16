@@ -12,6 +12,7 @@ specifiers:
   react-scripts: 5.0.0
   tailwind-styled-components: ^2.1.4
   tailwindcss: ^3.0.19
+  topojson-client: ^3.1.0
   use-http: ^1.0.26
   web-vitals: ^2.1.4
 
@@ -23,6 +24,7 @@ dependencies:
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-scripts: 5.0.0_autoprefixer@10.4.2+react@17.0.2
+  topojson-client: 3.1.0
   web-vitals: 2.1.4
 
 devDependencies:
@@ -8903,6 +8905,13 @@ packages:
   /toidentifier/1.0.1:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
+    dev: false
+
+  /topojson-client/3.1.0:
+    resolution: {integrity: sha512-605uxS6bcYxGXw9qi62XyrV6Q3xwbndjachmNxu8HWTtVPxZfEJN9fd/SZS1Q54Sn2y0TMyMxFj/cJINqGHrKw==}
+    hasBin: true
+    dependencies:
+      commander: 2.20.3
     dev: false
 
   /tough-cookie/4.0.0:
