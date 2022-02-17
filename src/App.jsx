@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import useFetch from 'use-http';
+import * as topojson from 'topojson-client';
 import tw from 'tailwind-styled-components';
 import sunnyBackground from './assets/images/sunny.jpg';
+import { ReactComponent as SettingIcon } from './assets/icons/setting-icon.svg';
+
+import CountySettingModal from './components/CountySettingModal';
 
 const Container = tw.div`
     w-screen h-screen
@@ -9,31 +13,51 @@ const Container = tw.div`
 `;
 
 const App = () => {
-    const districtDataURL = './api/district.json';
-    const { get, response } = useFetch(districtDataURL);
-
-    const [districtData, setDistrictData] = useState({});
+    const [taiwan, setTaiwan] = useState({
+        features: [],
+    });
+    const { get, response } = useFetch('./api/taiwan_county.json');
 
     useEffect(() => {
-        const initializeDistrictData = async () => {
-            const data = await get();
+        const initializeTaiwan = async () => {
+            const countyTopology = await get();
             if(response.ok) {
-                setDistrictData(data);
+                const taiwanData = topojson.feature(countyTopology, countyTopology.objects['COUNTY_MOI_1090820']);
+                setTaiwan(taiwanData);
             }
-        }
+        };
 
-        initializeDistrictData();
+        initializeTaiwan();
     }, [get, response.ok]);
 
-    const [currentLocation, setCurrentLocation] = useState({
-        city: '臺北市',
-        district: '臺北市',
-    });
+    const [isCountySettingModalOpen, setIsCountySettingModalOpen] = useState(false);
+
+    const openCountySettingModal = () => setIsCountySettingModalOpen(true);
+
+    const handleCountySettingModalClose = () => setIsCountySettingModalOpen(false);
+
+    const [county, setCounty] = useState('臺北市');
+
 
     return (
-    <Container style={{'--image-url': `url(${sunnyBackground})` }}>
-        
-    </Container>
+        <>
+            <CountySettingModal 
+                taiwan={taiwan}
+                isOpen={isCountySettingModalOpen} 
+                onClose={handleCountySettingModalClose}
+                county={county}
+                setCounty={setCounty}
+            />
+            <Container style={{'--image-url': `url(${sunnyBackground})` }}>
+                <div className='flex justify-between p-8'>
+                    <p className='text-white text-3xl'>{county}</p>
+                    <SettingIcon 
+                        className='w-6 h-6 text-white cursor-pointer'
+                        onClick={openCountySettingModal}
+                    />
+                </div>
+            </Container>
+        </>
     );
 };
 
