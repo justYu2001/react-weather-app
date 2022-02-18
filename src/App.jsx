@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useFetch from 'use-http';
+import axios from 'axios';
 import * as topojson from 'topojson-client';
 import tw from 'tailwind-styled-components';
 import sunnyBackground from './assets/images/sunny.jpg';
@@ -16,19 +16,21 @@ const App = () => {
     const [taiwan, setTaiwan] = useState({
         features: [],
     });
-    const { get, response } = useFetch('./api/taiwan_county.json');
 
     useEffect(() => {
         const initializeTaiwan = async () => {
-            const countyTopology = await get();
-            if(response.ok) {
+            try {
+                const response = await axios.get('./api/taiwan_county.json');
+                const countyTopology = response.data;
                 const taiwanData = topojson.feature(countyTopology, countyTopology.objects['COUNTY_MOI_1090820']);
                 setTaiwan(taiwanData);
+            } catch (error) {
+                console.error(error);
             }
         };
 
         initializeTaiwan();
-    }, [get, response.ok]);
+    }, []);
 
     const [isCountySettingModalOpen, setIsCountySettingModalOpen] = useState(false);
 
