@@ -41,11 +41,11 @@ const CountySettingModal = (props) => {
                     leaveTo="scale-0"
                 >
                     <div className='relative w-4/5 h-4/5 bg-white rounded-md'>
-                        <div className='absolute top-0 left-0 right-0 flex justify-between p-6'>
-                            <div>
-                                <Dialog.Title className="text-xl">目前設定地區</Dialog.Title>
-                                <p className='mt-2 -m-1 font-bold text-5xl'>{county}</p>
-                            </div>
+                        <div className='absolute top-0 left-0 p-6'>
+                            <Dialog.Title className="text-xl">目前設定地區</Dialog.Title>
+                            <p className='mt-2 -m-1 font-bold text-5xl'>{county}</p>
+                        </div>
+                        <div className='absolute top-0 right-0 p-6'>
                             <CloseIcon 
                                 ref={closeButtonRef} 
                                 className="w-10 h-10 cursor-pointer hover:fill-red-500"
