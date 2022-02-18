@@ -9,6 +9,7 @@ specifiers:
   '@visx/responsive': ^2.8.0
   '@visx/tooltip': ^2.8.0
   autoprefixer: ^10.4.2
+  axios: ^0.26.0
   postcss: ^8.4.6
   react: ^17.0.2
   react-dom: ^17.0.2
@@ -26,6 +27,7 @@ dependencies:
   '@visx/geo': 2.1.2_react@17.0.2
   '@visx/responsive': 2.8.0_react@17.0.2
   '@visx/tooltip': 2.8.0_react-dom@17.0.2+react@17.0.2
+  axios: 0.26.0
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-scripts: 5.0.0_autoprefixer@10.4.2+react@17.0.2
@@ -2913,6 +2915,14 @@ packages:
   /axe-core/4.4.1:
     resolution: {integrity: sha512-gd1kmb21kwNuWr6BQz8fv6GNECPBnUasepcoLbekws23NVBLODdsClRZ+bQ8+9Uomf3Sm3+Vwn0oYG9NvwnJCw==}
     engines: {node: '>=4'}
+    dev: false
+
+  /axios/0.26.0:
+    resolution: {integrity: sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==}
+    dependencies:
+      follow-redirects: 1.14.9
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /axobject-query/2.2.0:
