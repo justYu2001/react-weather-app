@@ -3,13 +3,17 @@ import axios from 'axios';
 import * as topojson from 'topojson-client';
 import tw from 'tailwind-styled-components';
 import sunnyBackground from './assets/images/sunny.jpg';
+import rainyBackground from './assets/images/rainy.jpg';
+import cloudyBackground from './assets/images/cloudy.jpg';
 import { ReactComponent as SettingIcon } from './assets/icons/setting-icon.svg';
 
 import CountySettingModal from './components/CountySettingModal';
+import TodayForecast from './components/TodayForecast';
 
 const Container = tw.div`
     w-screen h-screen
     bg-[image:var(--image-url)] bg-cover
+    transition-all ease-linear duration-300
 `;
 
 const App = () => {
@@ -40,6 +44,25 @@ const App = () => {
 
     const [county, setCounty] = useState('臺北市');
 
+    const [weatherDescription, setWeatherDescription] = useState('晴');
+
+    useEffect(() => {
+        const setBackground = () => {
+            const setBackgroundUrl = (background) => {
+                document.documentElement.style.setProperty('--image-url', `url(${background})`);
+            }
+
+            if(weatherDescription.includes('雨')) {
+                setBackgroundUrl(rainyBackground);
+            } else if(weatherDescription.includes('晴')) {
+                setBackgroundUrl(sunnyBackground);
+            } else {
+                setBackgroundUrl(cloudyBackground);
+            }
+        };
+
+        setBackground();
+    }, [weatherDescription]);
 
     return (
         <>
@@ -50,10 +73,10 @@ const App = () => {
                 county={county}
                 setCounty={setCounty}
             />
-            <Container style={{'--image-url': `url(${sunnyBackground})` }}>
+            <Container>
                 <div className='flex justify-between p-8'>
-                    <p className='text-white text-3xl'>{county}</p>
-                    <SettingIcon 
+                    <TodayForecast county={county} onCountyChange={setWeatherDescription} />
+                    <SettingIcon
                         className='w-6 h-6 text-white cursor-pointer'
                         onClick={openCountySettingModal}
                     />
