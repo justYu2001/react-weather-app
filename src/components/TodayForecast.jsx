@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const TodayForecast = (props) => {
-    const { county, onCountyChange } = props;
+    const { county, weatherData } = props;
 
     const [weather, setWeather] = useState({
         description: '',
@@ -13,51 +12,24 @@ const TodayForecast = (props) => {
     });
 
     useEffect(() => {
-        const fetchWeatherData = async () => {
-            try {
-                const weatherApiUrl = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091';
-           
-                const configs = {
-                    params: {
-                        Authorization: 'CWB-2F4BD805-77BC-41DB-92C7-15371EF9C7F7',
-                        locationName: county,
-                    },
-                };
-    
-                const response = await axios.get(weatherApiUrl, configs);
-                const weatherData = response.data.records.locations[0].location[0].weatherElement;
-                const neededProperties = ['Wx', 'PoP12h', 'T', 'MinT', 'MaxT'];
-                const neededWeatherData = weatherData.reduce((neededProperty, property) => {
-                    if(neededProperties.includes(property.elementName)) {
-                        neededProperty[property.elementName] = property.time[0].elementValue[0].value;
-                    }
+        const neededProperties = ['Wx', 'PoP12h', 'T', 'MinT', 'MaxT'];
+        const neededWeatherData = weatherData.reduce((neededProperty, property) => {
+            if(neededProperties.includes(property.elementName)) {
+                neededProperty[property.elementName] = property.time[0].elementValue[0].value;
+            }
 
-                    return neededProperty;
-                }, {});
+            return neededProperty;
+        }, {});
 
-                return neededWeatherData;
-    
-            } catch (error) {
-                console.error(error);
-            } 
-        };
+        setWeather({
+            description: neededWeatherData['Wx'],
+            temperature: neededWeatherData['T'],
+            minTemperature: neededWeatherData['MinT'],
+            maxTemperature: neededWeatherData['MaxT'],
+            probabilityOfPrecipitation: neededWeatherData['PoP12h'],
+        });
 
-        const initializeWeather = async () => {
-            const weatherData = await fetchWeatherData();
-            setWeather({
-                description: weatherData['Wx'],
-                temperature: weatherData['T'],
-                minTemperature: weatherData['MinT'],
-                maxTemperature: weatherData['MaxT'],
-                probabilityOfPrecipitation: weatherData['PoP12h'],
-            });
-
-            onCountyChange(weatherData['Wx']);
-        };
-
-        initializeWeather();
-
-    }, [county, onCountyChange]);
+    }, [weatherData]);
     
     return (
         <div className='text-white'>
