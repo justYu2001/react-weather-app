@@ -1,36 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const TodayForecast = (props) => {
     const { county, weatherData } = props;
 
-    const [weather, setWeather] = useState({
-        description: '',
-        temperature: '',
-        minTemperature: '',
-        maxTemperature: '',
-        probabilityOfPrecipitation: '',
-    });
+    const neededProperties = ['Wx', 'PoP12h', 'T', 'MinT', 'MaxT'];
+    const neededWeatherData = weatherData.reduce((neededProperty, property) => {
+        if(neededProperties.includes(property.elementName)) {
+            neededProperty[property.elementName] = property.time[0].elementValue[0].value;
+        }
 
-    useEffect(() => {
-        const neededProperties = ['Wx', 'PoP12h', 'T', 'MinT', 'MaxT'];
-        const neededWeatherData = weatherData.reduce((neededProperty, property) => {
-            if(neededProperties.includes(property.elementName)) {
-                neededProperty[property.elementName] = property.time[0].elementValue[0].value;
-            }
+        return neededProperty;
+    }, {});
 
-            return neededProperty;
-        }, {});
-
-        setWeather({
-            description: neededWeatherData['Wx'],
-            temperature: neededWeatherData['T'],
-            minTemperature: neededWeatherData['MinT'],
-            maxTemperature: neededWeatherData['MaxT'],
-            probabilityOfPrecipitation: neededWeatherData['PoP12h'],
-        });
-
-    }, [weatherData]);
-    
+    const weather = {
+        description: neededWeatherData['Wx'],
+        temperature: neededWeatherData['T'],
+        minTemperature: neededWeatherData['MinT'],
+        maxTemperature: neededWeatherData['MaxT'],
+        probabilityOfPrecipitation: neededWeatherData['PoP12h'],
+    };
+  
     return (
         <div className='text-white'>
             <span className='text-6xl mr-2'>{ weather.temperature }°C</span>
