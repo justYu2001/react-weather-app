@@ -30,7 +30,7 @@ const WeekForecast = (props) => {
     const { weatherData } = props;
 
     const getChineseDay = (datetimeString) => {
-        const date = new Date(datetimeString);
+        const date = new Date(datetimeString.replace(' ', 'T'));
         const day = date.getDay();
 
         const chineseDay = ['日', '一', '二', '三', '四', '五', '六'];
