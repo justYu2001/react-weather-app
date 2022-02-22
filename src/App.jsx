@@ -86,7 +86,7 @@ const App = () => {
                 const image = new Image();
                 image.addEventListener('load', () => {
                     setBackgroundUrl(src);
-                    setTimeout(resolve, 1000);
+                    setTimeout(resolve, 1500);
                 });
                 image.addEventListener('error', reject);
                 image.src = src;

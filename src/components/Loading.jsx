@@ -14,6 +14,13 @@ const Container = tw.div`
     ${(props) => props.$show ? '' : 'animate-fadeout'}
 `;
 
+const Spinner = tw.div`
+    w-8 h-8 mt-3
+    border-4 border-t-cyan-400 border-b-cyan-400 border-l-cyan-400 border-r-transparent
+    rounded-full
+    animate-spin
+`;
+
 const Loading = (props) => {
     const { loading } = props;
 
@@ -22,6 +29,7 @@ const Loading = (props) => {
             <div className='flex flex-col items-center animate-fade-in'>
                 <SunnyIcon />
                 <p className='mt-2 text-cyan-400 text-3xl'>Yu 天氣預報</p>
+                <Spinner />
             </div>
         </Container>
     );
