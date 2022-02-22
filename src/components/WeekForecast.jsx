@@ -4,12 +4,26 @@ import tw from 'tailwind-styled-components';
 import WeatherIcon from './WeatherIcon';
 
 const Container = tw.ul`
-    flex justify-evenly
-    py-6
-    border-t border-t-white/30
+    flex flex-col justify-evenly
+    w-4/5 py-3 mx-auto mt-3
     bg-stone-300/30
+    rounded-md
     shadow
     backdrop-blur-sm
+
+    md:flex-row
+    md:w-full md:py-6
+    md:border-t md:border-t-white/30
+    md:rounded-none
+`;
+
+const DayForecast = tw.li`
+    flex items-center
+    px-3 py-1.5
+    text-white
+
+    md:flex-col
+    md:p-0
 `;
 
 const WeekForecast = (props) => {
@@ -51,11 +65,11 @@ const WeekForecast = (props) => {
         }, Array.from({ length: 7 }, () => ({})));
 
         return weekWeatherForecast.map((weatherForecast) => (
-            <li key={weatherForecast.day} className="flex flex-col items-center text-white">
-                <h5 className='py-1 font-bold'>{weatherForecast.day}</h5>
+            <DayForecast key={weatherForecast.day}>
+                <h5 className='flex-grow md:flex-grow-0 md:py-1 font-bold'>{weatherForecast.day}</h5>
                 <WeatherIcon weather={weatherForecast['Wx']} />
-                <p className='py-1'>{weatherForecast['MinT']}° - {weatherForecast['MaxT']}°</p>
-            </li>
+                <p className='w-18 ml-2 md:py-1'>{weatherForecast['MinT']}° - {weatherForecast['MaxT']}°</p>
+            </DayForecast>
         ));
     }
 

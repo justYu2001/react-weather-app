@@ -13,10 +13,12 @@ import WeekForecast from './components/WeekForecast';
 import Loading from './components/Loading';
 
 const Container = tw.div`
-    flex flex-col justify-between
+    flex flex-col
     w-screen h-screen
     bg-[image:var(--image-url)] bg-cover
     transition-all ease-linear duration-300
+
+    md:justify-between
 `;
 
 const App = () => {
@@ -148,7 +150,7 @@ const App = () => {
                 setCounty={setCounty}
             />
             <Container>
-                <div className='flex justify-between p-8'>
+                <div className='flex justify-between p-4 md:p-8'>
                     <TodayForecast weatherData={weatherData} county={county} />
                     <SettingIcon
                         className='w-6 h-6 text-white cursor-pointer'

@@ -42,6 +42,32 @@ const TaiwanMap = (props) => {
         onClose();
     };
 
+    const breakPoints = {
+        md: 700,
+        sm: 512,
+    }
+
+    const getScale = (width) => {
+
+        if(width > breakPoints.md) {
+            return 8400;
+        } else if(width > breakPoints.sm) {
+            return 8000;
+        } else {
+            return 3800;
+        }
+    };
+
+    const getTranslate = (width, height) => {
+        if(width > breakPoints.md) {
+            return [width / 1.55, height / 2.5];
+        } else if(width > breakPoints.sm) {
+            return [width / 1.48, height / 2.3];
+        } else {
+            return [width / 1.5, height / 2];
+        }
+    }
+
     return (
         <ParentSize>
             {({width, height}) => (
@@ -50,8 +76,8 @@ const TaiwanMap = (props) => {
                         <rect x={0} y={0} width={width} height={height} fill={'#fff'} rx={20}/>
                         <Mercator
                             data={taiwan.features}
-                            translate={[width / 1.55, height / 2.5]}
-                            scale={8400}
+                            translate={getTranslate(width, height)}
+                            scale={getScale(width)}
                             center={[120.9738819, 23.97565]}
                         >
                             {(mercator) => (

@@ -4,6 +4,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        '18': '4.5rem',
+      },
       keyframes: {
         fadeIn: {
           '0%': { opacity: 0 },

@@ -10,15 +10,15 @@ const WeatherIcon = (props) => {
     const { weather } = props;
 
     if(weather.includes('陣雨')) {
-        return <HeavyRainIcon className="w-11 h-11" />;
+        return <HeavyRainIcon className="w-5 h-5 md:w-11 md:h-11" />;
     } else if(weather.includes('雨')) {
-        return <RainIcon className="w-11 h-11" />;
+        return <RainIcon className="w-5 h-5 md:w-11 md:h-11" />;
     } else if(weather === '多雲時晴') {
         return <PartlyClearIcon />
     } else if(weather.includes('晴')) {
-        return <SunnyIcon className="w-11 h-11" />
+        return <SunnyIcon className="w-5 h-5 md:w-11 md:h-11" />
     } else {
-        return <CloudyIcon className="w-11 h-11" />
+        return <CloudyIcon className="w-5 h-5 md:w-11 md:h-11" />
     }
 };
 
