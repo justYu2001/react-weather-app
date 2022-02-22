@@ -14,7 +14,7 @@ const WeatherIcon = (props) => {
     } else if(weather.includes('雨')) {
         return <RainIcon className="w-5 h-5 md:w-11 md:h-11" />;
     } else if(weather === '多雲時晴') {
-        return <PartlyClearIcon />
+        return <PartlyClearIcon className="w-5 h-5 md:w-11 md:h-11" />
     } else if(weather.includes('晴')) {
         return <SunnyIcon className="w-5 h-5 md:w-11 md:h-11" />
     } else {
