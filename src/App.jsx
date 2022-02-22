@@ -10,6 +10,7 @@ import { ReactComponent as SettingIcon } from './assets/icons/setting-icon.svg';
 import CountySettingModal from './components/CountySettingModal';
 import TodayForecast from './components/TodayForecast';
 import WeekForecast from './components/WeekForecast';
+import Loading from './components/Loading';
 
 const Container = tw.div`
     flex flex-col justify-between
@@ -47,6 +48,7 @@ const App = () => {
     const [county, setCounty] = useState('臺北市');
 
     const [weatherData, setWeatherData] = useState([]);
+    const [loadingWeatherData, setLoadingWeatherData] = useState(true);
 
     useEffect(() => {
         const fetchWeatherData = async () => {
@@ -62,7 +64,8 @@ const App = () => {
     
                 const response = await axios.get(weatherApiUrl, configs);
                 const { weatherElement } = response.data.records.locations[0].location[0];
-                setWeatherData(weatherElement)
+                setWeatherData(weatherElement);
+                setLoadingWeatherData(false);
             } catch (error) {
                 console.error(error);
             } 
@@ -70,6 +73,36 @@ const App = () => {
 
         fetchWeatherData();
     }, [county]);
+
+    const [loadingBackground, setLoadingBackGround] = useState(true);
+
+    useEffect(() => {
+        const setBackgroundUrl = (background) => {
+            document.documentElement.style.setProperty('--image-url', `url(${background})`);
+        }
+
+        const loadBackground = (src) => {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                image.addEventListener('load', () => {
+                    setBackgroundUrl(src);
+                    setTimeout(resolve, 1000);
+                });
+                image.addEventListener('error', reject);
+                image.src = src;
+            });
+        }
+
+        const loadAllBackground = async () => {
+            const backgroundList = [sunnyBackground, cloudyBackground, rainyBackground];
+            for (const background of backgroundList) {
+                await loadBackground(background);
+            }
+            setLoadingBackGround(false);
+        }
+
+        loadAllBackground();
+    }, []);
 
     useEffect(() => {
         const getTodayWeatherDescription = () => {
@@ -85,12 +118,12 @@ const App = () => {
             return todayWeatherDescription;
         }
 
+        const setBackgroundUrl = (background) => {
+            document.documentElement.style.setProperty('--image-url', `url(${background})`);
+        }
+
         const setBackground = () => {
             const todayWeatherDescription = getTodayWeatherDescription();
-            
-            const setBackgroundUrl = (background) => {
-                document.documentElement.style.setProperty('--image-url', `url(${background})`);
-            }
 
             if(todayWeatherDescription.includes('雨')) {
                 setBackgroundUrl(rainyBackground);
@@ -99,7 +132,6 @@ const App = () => {
             } else {
                 setBackgroundUrl(cloudyBackground);
             }
-
         };
 
         setBackground();
@@ -107,6 +139,7 @@ const App = () => {
 
     return (
         <>
+            <Loading loading={loadingWeatherData || loadingBackground} />
             <CountySettingModal 
                 taiwan={taiwan}
                 isOpen={isCountySettingModalOpen} 

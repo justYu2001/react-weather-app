@@ -9,8 +9,6 @@ import { ReactComponent as HeavyRainIcon } from '../assets/icons/heavy-rain-icon
 const WeatherIcon = (props) => {
     const { weather } = props;
 
-    console.log(weather);
-
     if(weather.includes('陣雨')) {
         return <HeavyRainIcon className="w-11 h-11" />;
     } else if(weather.includes('雨')) {
