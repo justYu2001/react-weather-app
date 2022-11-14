@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as topojson from 'topojson-client';
 import tw from 'tailwind-styled-components';
-import sunnyBackground from './assets/images/sunny.jpg';
-import rainyBackground from './assets/images/rainy.jpg';
-import cloudyBackground from './assets/images/cloudy.jpg';
+import sunnyLargeBackground from './assets/images/sunny-lg.jpg';
+import rainyLargeBackground from './assets/images/rainy-lg.jpg';
+import cloudyLargeBackground from './assets/images/cloudy-lg.jpg';
+import sunnyMediumBackground from './assets/images/sunny-md.jpg';
+import rainyMediumBackground from './assets/images/rainy-md.jpg';
+import cloudyMediumBackground from './assets/images/cloudy-md.jpg';
 import { ReactComponent as SettingIcon } from './assets/icons/setting-icon.svg';
 
 import CountySettingModal from './components/CountySettingModal';
@@ -20,6 +23,28 @@ const Container = tw.div`
 
     md:justify-between
 `;
+
+const backgrounds = {
+    lg: {
+        rainy: rainyLargeBackground,
+        sunny: sunnyLargeBackground,
+        cloudy: cloudyLargeBackground,
+    },
+    md: {
+        rainy: rainyMediumBackground,
+        sunny: sunnyMediumBackground,
+        cloudy: cloudyMediumBackground,
+    },
+};
+
+const getCheckpoint = () => {
+    const windowWidth = window.innerWidth;
+    if(windowWidth >= 1280) {
+        return 'lg';
+    } else {
+        return 'md';
+    }
+};
 
 const App = () => {
     const [taiwan, setTaiwan] = useState({
@@ -86,6 +111,7 @@ const App = () => {
         const loadBackground = (src) => {
             return new Promise((resolve, reject) => {
                 const image = new Image();
+
                 image.addEventListener('load', () => {
                     setBackgroundUrl(src);
                     setTimeout(resolve, 1500);
@@ -96,8 +122,9 @@ const App = () => {
         }
 
         const loadAllBackground = async () => {
-            const backgroundList = [sunnyBackground, cloudyBackground, rainyBackground];
-            for (const background of backgroundList) {
+            const checkpoint = getCheckpoint();
+
+            for (const background of Object.values(backgrounds[checkpoint])) {
                 await loadBackground(background);
             }
             setLoadingBackGround(false);
@@ -127,12 +154,15 @@ const App = () => {
         const setBackground = () => {
             const todayWeatherDescription = getTodayWeatherDescription();
 
+            const checkpoint = getCheckpoint();
+            const background = backgrounds[checkpoint];
+
             if(todayWeatherDescription.includes('雨')) {
-                setBackgroundUrl(rainyBackground);
+                setBackgroundUrl(background.rainy);
             } else if(todayWeatherDescription.includes('晴')) {
-                setBackgroundUrl(sunnyBackground);
+                setBackgroundUrl(background.sunny);
             } else {
-                setBackgroundUrl(cloudyBackground);
+                setBackgroundUrl(background.cloudy);
             }
         };
 
