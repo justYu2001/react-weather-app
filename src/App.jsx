@@ -13,7 +13,6 @@ import { ReactComponent as SettingIcon } from './assets/icons/setting-icon.svg';
 import CountySettingModal from './components/CountySettingModal';
 import TodayForecast from './components/TodayForecast';
 import WeekForecast from './components/WeekForecast';
-import Loading from './components/Loading';
 
 const Container = tw.div`
     flex flex-col
@@ -75,7 +74,6 @@ const App = () => {
     const [county, setCounty] = useState('臺北市');
 
     const [weatherData, setWeatherData] = useState([]);
-    const [loadingWeatherData, setLoadingWeatherData] = useState(true);
 
     useEffect(() => {
         const fetchWeatherData = async () => {
@@ -92,7 +90,6 @@ const App = () => {
                 const response = await axios.get(weatherApiUrl, configs);
                 const { weatherElement } = response.data.records.locations[0].location[0];
                 setWeatherData(weatherElement);
-                setLoadingWeatherData(false);
             } catch (error) {
                 console.error(error);
             } 
@@ -100,38 +97,6 @@ const App = () => {
 
         fetchWeatherData();
     }, [county]);
-
-    const [loadingBackground, setLoadingBackGround] = useState(true);
-
-    useEffect(() => {
-        const setBackgroundUrl = (background) => {
-            document.documentElement.style.setProperty('--image-url', `url(${background})`);
-        }
-
-        const loadBackground = (src) => {
-            return new Promise((resolve, reject) => {
-                const image = new Image();
-
-                image.addEventListener('load', () => {
-                    setBackgroundUrl(src);
-                    setTimeout(resolve, 1500);
-                });
-                image.addEventListener('error', reject);
-                image.src = src;
-            });
-        }
-
-        const loadAllBackground = async () => {
-            const checkpoint = getCheckpoint();
-
-            for (const background of Object.values(backgrounds[checkpoint])) {
-                await loadBackground(background);
-            }
-            setLoadingBackGround(false);
-        }
-
-        loadAllBackground();
-    }, []);
 
     useEffect(() => {
         const getTodayWeatherDescription = () => {
@@ -171,7 +136,6 @@ const App = () => {
 
     return (
         <>
-            <Loading loading={loadingWeatherData || loadingBackground} />
             <CountySettingModal 
                 taiwan={taiwan}
                 isOpen={isCountySettingModalOpen} 
