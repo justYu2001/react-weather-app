@@ -101,7 +101,7 @@ const App = () => {
     useEffect(() => {
         const getTodayWeatherDescription = () => {
             if(weatherData.length === 0){
-                return '晴';
+                return "";
             }
 
             const weatherDescriptionList = weatherData.find((weatherElement) => {
@@ -118,6 +118,10 @@ const App = () => {
 
         const setBackground = () => {
             const todayWeatherDescription = getTodayWeatherDescription();
+
+            if (todayWeatherDescription === "") {
+                return;
+            }
 
             const checkpoint = getCheckpoint();
             const background = backgrounds[checkpoint];
@@ -136,6 +140,14 @@ const App = () => {
 
     return (
         <>
+            <div className='hidden'>
+                <img src={rainyLargeBackground} alt="preload" />
+                <img src={sunnyLargeBackground} alt="preload" />
+                <img src={cloudyLargeBackground} alt="preload" />
+                <img src={rainyMediumBackground} alt="preload" />
+                <img src={sunnyMediumBackground} alt="preload" />
+                <img src={cloudyMediumBackground} alt="preload" />
+            </div>
             <CountySettingModal 
                 taiwan={taiwan}
                 isOpen={isCountySettingModalOpen} 
