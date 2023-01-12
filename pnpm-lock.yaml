@@ -11,6 +11,7 @@ specifiers:
   autoprefixer: ^10.4.2
   axios: ^0.26.0
   i18next: ^22.4.9
+  i18next-browser-languagedetector: ^7.0.1
   postcss: ^8.4.6
   react: ^17.0.2
   react-dom: ^17.0.2
@@ -31,6 +32,7 @@ dependencies:
   '@visx/tooltip': 2.8.0_sfoxds7t5ydpegc3knd667wn6m
   axios: 0.26.0
   i18next: 22.4.9
+  i18next-browser-languagedetector: 7.0.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-i18next: 12.1.4_eo4sty7cwqsk7kj43p7tuwmamq
@@ -5315,6 +5317,12 @@ packages:
   /human-signals/2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
+    dev: false
+
+  /i18next-browser-languagedetector/7.0.1:
+    resolution: {integrity: sha512-Pa5kFwaczXJAeHE56CHG2aWzFBMJNUNghf0Pm4SwSrEMps/PTKqW90EYWlIvhuYStf3Sn1K0vw+gH3+TLdkH1g==}
+    dependencies:
+      '@babel/runtime': 7.20.7
     dev: false
 
   /i18next/22.4.9:
