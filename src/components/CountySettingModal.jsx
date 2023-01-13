@@ -1,6 +1,8 @@
 import React, { useRef, Fragment } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
 import tw from 'tailwind-styled-components';
+import { useTranslation } from 'react-i18next';
+
 import TaiwanMap from './TaiwanMap';
 import { ReactComponent as CloseIcon } from '../assets/icons/close-icon.svg';
 
@@ -15,6 +17,8 @@ const CountySettingModal = (props) => {
     const { isOpen, onClose, taiwan, county, setCounty } = props;
 
     const closeButtonRef = useRef(null);
+
+    const { t } = useTranslation();
 
     return (
         <Transition
@@ -50,8 +54,8 @@ const CountySettingModal = (props) => {
                 >
                     <div className='relative w-4/5 h-1/2 md:h-3/5 lg:h-4/5 bg-white rounded-md'>
                         <div className='absolute top-0 left-0 p-3 md:p-6'>
-                            <Dialog.Title className="md:text-xl">目前設定地區</Dialog.Title>
-                            <CurrentCounty>{county}</CurrentCounty>
+                            <Dialog.Title className="md:text-xl">{t("目前設定地區")}</Dialog.Title>
+                            <CurrentCounty>{t(county)}</CurrentCounty>
                         </div>
                         <div className='absolute top-0 right-0 p-3 md:p-6'>
                             <CloseIcon 

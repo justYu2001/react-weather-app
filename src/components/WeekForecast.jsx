@@ -1,6 +1,8 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
 
+import { useTranslation } from 'react-i18next';
+
 import WeatherIcon from './WeatherIcon';
 
 const Container = tw.ul`
@@ -47,6 +49,8 @@ const getChineseDay = (datetimeString) => {
 };
 
 const EverydayForecast = ({ weatherData }) => {
+    const { t } = useTranslation();
+    
     if(weatherData.length === 0) {
         return <li />;
     }
@@ -75,7 +79,7 @@ const EverydayForecast = ({ weatherData }) => {
 
     return weekWeatherForecast.map((weatherForecast) => (
         <DayForecast key={weatherForecast.day}>
-            <h5 className='flex-grow md:flex-grow-0 md:py-1 font-bold'>{weatherForecast.day}</h5>
+            <h5 className='flex-grow md:flex-grow-0 md:py-1 font-bold'>{t(weatherForecast.day)}</h5>
             <WeatherIcon weather={weatherForecast['Wx']} />
             <p className='w-18 ml-2 md:py-1'>{weatherForecast['MinT']}° - {weatherForecast['MaxT']}°</p>
         </DayForecast>

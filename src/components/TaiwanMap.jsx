@@ -3,6 +3,8 @@ import { Mercator, Graticule } from '@visx/geo';
 import { ParentSize } from '@visx/responsive';
 import { useTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
 
+import { useTranslation } from 'react-i18next';
+
 const TaiwanMap = (props) => {
     const { taiwan, onCountyClick, onClose } = props;
 
@@ -68,6 +70,8 @@ const TaiwanMap = (props) => {
         }
     }
 
+    const { t } = useTranslation();
+
     return (
         <ParentSize>
             {({width, height}) => (
@@ -106,7 +110,7 @@ const TaiwanMap = (props) => {
                             left={tooltipLeft}
                             style={tooltipStyle}
                         >
-                            <p className='text-white'>{tooltipData}</p>
+                            <p className='text-white'>{t(tooltipData)}</p>
                         </Tooltip>
                     }
                 </>
