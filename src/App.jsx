@@ -78,7 +78,7 @@ const App = () => {
     useEffect(() => {
         const fetchWeatherData = async () => {
             try {
-                const weatherApiUrl = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091';
+                const weatherApiUrl = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-091';
            
                 const configs = {
                     params: {
